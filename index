@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CPO Daily Brief — Mockup</title>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --panel: #121834;
+      --panel-2: #0e1430;
+      --text: #e9ecf5;
+      --muted: #b8c0d9;
+      --line: #202952;
+      --green: #19c37d;
+      --amber: #f2a93b;
+      --red: #ff5c5c;
+      --blue: #5aa2ff;
+      --chip: #1a2146;
+      --shadow: 0 10px 24px rgba(5,8,20,.4);
+    }
+    body.light {
+      --bg: #f6f7fb;
+      --panel: #ffffff;
+      --panel-2: #ffffff;
+      --text: #101321;
+      --muted: #55607a;
+      --line: #e6e8ef;
+      --chip: #f0f3fa;
+      --shadow: 0 10px 24px rgba(20,25,40,.12);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial;
+      color: var(--text); background: radial-gradient(1200px 800px at 20% -10%, #1c2558 0%, transparent 60%), var(--bg);
+    }
+    .container { max-width: 1200px; margin: 0 auto; padding: 24px; }
+    header { display: grid; grid-template-columns: 1fr auto; gap: 16px; align-items: start; margin-bottom: 16px; }
+    h1 { margin: 0; font-size: 28px; letter-spacing: .3px; }
+    .sub { color: var(--muted); font-size: 13px; margin-top: 6px; }
+    .toolbar { display: flex; gap: 8px; flex-wrap: wrap; }
+    .btn { background: var(--chip); color: var(--text); border: 1px solid var(--line); padding: 8px 12px; border-radius: 12px; cursor: pointer; font-weight: 600; font-size: 13px; }
+    .btn:hover { filter: brightness(1.1); }
+    .grid { display: grid; gap: 16px; }
+    .grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+    .grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
+    @media (max-width: 960px) { .grid.cols-3 { grid-template-columns: 1fr; } .grid.cols-2 { grid-template-columns: 1fr; } }
+
+    .card { background: linear-gradient(180deg, var(--panel) 0%, var(--panel-2) 100%); border: 1px solid var(--line); border-radius: 16px; box-shadow: var(--shadow); }
+    .card h3 { margin: 0 0 12px; font-size: 16px; letter-spacing: .3px; }
+    .card .body { padding: 16px; }
+
+    .kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 12px 0 20px; }
+    @media (max-width: 960px){ .kpis { grid-template-columns: repeat(2,1fr);} }
+    .kpi { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; padding: 14px; }
+    .kpi .label { color: var(--muted); font-size: 12px; }
+    .kpi .value { font-size: 22px; font-weight: 800; margin-top: 6px; }
+
+    .rag { display: inline-flex; align-items: center; gap: 6px; background: var(--chip); border: 1px solid var(--line); padding: 6px 10px; border-radius: 999px; font-weight: 700; font-size: 12px; }
+    .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+    .G .dot { background: var(--green);} .A .dot { background: var(--amber);} .R .dot { background: var(--red);} 
+
+    .table-wrap { overflow: auto; border-radius: 14px; border: 1px solid var(--line); }
+    table { width: 100%; border-collapse: collapse; background: var(--panel); }
+    thead { position: sticky; top: 0; background: linear-gradient(180deg, var(--panel) 0%, var(--panel-2) 100%); z-index: 2; }
+    th, td { padding: 12px 12px; border-bottom: 1px solid var(--line); text-align: left; font-size: 13px; }
+    th { font-weight: 700; color: var(--muted); user-select: none; cursor: pointer; }
+    tr:hover td { background: rgba(255,255,255,.02); }
+    a { color: var(--blue); text-decoration: none; }
+
+    .pill { display: inline-block; padding: 4px 8px; border-radius: 999px; font-weight: 700; font-size: 11px; border: 1px solid var(--line); background: var(--chip); }
+    .pill.op { color: #92e6a7; } .pill.fin { color:#a1c4ff;} .pill.leg { color:#ffd280;} .pill.geo { color:#f7a1a1;} .pill.esg{ color:#8ef; } .pill.cyb{ color:#cbb2ff;}
+
+    .section-title { display:flex; align-items:center; justify-content:space-between; gap: 12px; margin: 4px 0 8px; }
+    .section-title h2 { margin: 0; font-size: 18px; }
+    .muted { color: var(--muted); font-size: 12px; }
+
+    .list { display: grid; gap: 10px; }
+    .list .item { padding: 10px; background: var(--panel); border: 1px solid var(--line); border-radius: 12px; }
+    .bullets { padding-left: 16px; margin: 8px 0 0; }
+
+    .controls { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin: 8px 0 12px; }
+    .input, select { background: var(--chip); color: var(--text); border: 1px solid var(--line); padding: 8px 10px; border-radius: 10px; font-size: 13px; }
+
+    .footer { color: var(--muted); font-size: 12px; margin: 20px 0; }
+  </style>
+</head>
+<body class="light">
+  <div class="container">
+    <header>
+      <div>
+        <h1>CPO Daily Brief — Demo</h1>
+        <div class="sub">Last 24h • Europe/London • <span id="today"></span></div>
+      </div>
+      <div class="toolbar">
+        <span class="rag G" id="dayRag"><span class="dot"></span> Day RAG: Green</span>
+        <button class="btn" id="toggleTheme">Toggle Theme</button>
+        <button class="btn" id="exportCsv">Export Watchlist CSV</button>
+        <button class="btn" onclick="window.print()">Print</button>
+      </div>
+    </header>
+
+    <!-- KPIs -->
+    <div class="kpis">
+      <div class="kpi"><div class="label">Top Signals Today</div><div class="value" id="kpiSignals">3</div></div>
+      <div class="kpi"><div class="label">Suppliers Tracked</div><div class="value" id="kpiSuppliers">24</div></div>
+      <div class="kpi"><div class="label">Alerts Sent</div><div class="value" id="kpiAlerts">1</div></div>
+      <div class="kpi"><div class="label">Confidence (avg)</div><div class="value" id="kpiConf">87%</div></div>
+    </div>
+
+    <!-- A) Top Signals -->
+    <div class="section-title"><h2>A) Top Signals</h2><div class="muted">≤5 material items</div></div>
+    <div class="table-wrap">
+      <table id="signalsTable">
+        <thead>
+          <tr>
+            <th data-sort="entity">Supplier/Topic</th>
+            <th data-sort="event">Event</th>
+            <th data-sort="impact">Impact</th>
+            <th data-sort="urgency">Urgency</th>
+            <th data-sort="confidence">Confidence</th>
+            <th data-sort="risk_type">Risk</th>
+            <th>Link</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <!-- D) Macro snapshot -->
+    <div class="section-title"><h2>B) Macro Snapshot — US • EU • China</h2><div class="muted">Official/free sources</div></div>
+    <div class="grid cols-3" id="macroGrid"></div>
+
+    <!-- C) Peers & Ourselves -->
+    <div class="section-title"><h2>C) Peers & Ourselves</h2><div class="muted">BAT • PMI • Imperial • JTI</div></div>
+    <div class="grid cols-2" id="peersGrid"></div>
+
+    <!-- Watchlist -->
+    <div class="section-title"><h2>D) Supplier Watchlist (24)</h2><div class="muted">Search & filter</div></div>
+    <div class="controls">
+      <input class="input" id="search" placeholder="Search supplier, category, latest signal..." />
+      <select id="ragFilter">
+        <option value="">All RAG</option>
+        <option value="Green">Green</option>
+        <option value="Amber">Amber</option>
+        <option value="Red">Red</option>
+      </select>
+      <select id="areaFilter">
+        <option value="">All Areas</option>
+        <option value="Directs">Directs</option>
+        <option value="NC">NC</option>
+      </select>
+    </div>
+    <div class="table-wrap">
+      <table id="watchTable">
+        <thead>
+          <tr>
+            <th data-sort="supplier">Supplier</th>
+            <th data-sort="area">Area</th>
+            <th data-sort="category">Category</th>
+            <th data-sort="latest_signal">Latest Signal</th>
+            <th data-sort="risk_type">Risk</th>
+            <th data-sort="impact">Impact</th>
+            <th data-sort="urgency">Urgency</th>
+            <th data-sort="owner">Owner</th>
+            <th data-sort="next_step">Next Step</th>
+            <th>Link</th>
+            <th data-sort="rag">RAG</th>
+            <th data-sort="updated_utc">Updated</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <!-- One-liner -->
+    <div class="section-title"><h2>E) CPO One‑liner</h2><div class="muted">Decision today</div></div>
+    <div class="card"><div class="body">
+      <div id="oneLiner">Approve contingency packaging slot at Amcor UK (impact 3/5, lead-time risk) — Procurement to confirm by 16:00.</div>
+      <div style="margin-top:10px"><button class="btn" id="copyOne">Copy</button></div>
+    </div></div>
+
+    <div class="footer">Mock data for internal demo • Free/official sources only • © Demo</div>
+  </div>
+
+  <script>
+    // ---- Example DATA ----
+    const topSignals = [
+      {entity: "Amcor", event: "EU flexibles line outage (48h) — reroute advised", impact: 3, urgency: "H", confidence: 85, risk_type: "Operational", link: "https://example.com/amcor"},
+      {entity: "China Macro", event: "PBoC hints at targeted liquidity for SMEs", impact: 2, urgency: "M", confidence: 80, risk_type: "Financial", link: "https://example.com/pboc"},
+      {entity: "EVE (Batteries)", event: "Adds capacity for 21700 cells; export slots limited", impact: 3, urgency: "M", confidence: 90, risk_type: "Commercial", link: "https://example.com/eve"}
+    ];
+
+    const macro = [
+      {region: "US", bullets: [
+        "Payrolls beat consensus; services PMI steady.",
+        "Fed speakers signal ‘data‑dependent’ stance; curve little changed.",
+        "WTI stable; USD mixed vs. EUR/JPY."],
+        link: "https://www.bls.gov/"},
+      {region: "EU", bullets: [
+        "ECB minutes flag slower credit growth; core inflation easing.",
+        "Energy storage inventories above 5‑yr avg.",
+        "EUR marginally softer; bund yields flat."],
+        link: "https://www.ecb.europa.eu/press/"},
+      {region: "China", bullets: [
+        "NBS manufacturing PMI near 50; infrastructure supports growth.",
+        "PBoC conducts MLF rollover; liquidity ample.",
+        "Exports show mixed momentum across ASEAN."],
+        link: "http://www.stats.gov.cn/"}
+    ];
+
+    const peers = [
+      {company: "BAT", bullets: ["Steady ILUMA rollout in EU; monitoring category growth.", "No material regulatory changes in last 24h."], link: "https://www.bat.com"},
+      {company: "PMI", bullets: ["IQOS supply chain stable; FX noted in CEE.", "Investor day Q&A posted."], link: "https://www.pmi.com"},
+      {company: "Imperial", bullets: ["Blu distribution expansion; retail execution focus.", "No material updates last 24h."], link: "https://www.imperialbrandsplc.com"},
+      {company: "JTI", bullets: ["Heated products capacity aligned for holidays.", "No material updates last 24h."], link: "https://www.jti.com"}
+    ];
+
+    const watchlist = [
+      // Directs (16)
+      {supplier:"AMCOR", area:"Directs", category:"Printed Packaging", latest_signal:"No material updates", risk_type:null, impact:null, urgency:null, owner:"Owner TBD", next_step:"Monitor", link:null, rag:"Green", updated_utc:"2025-11-10T08:30:00Z"},
+      {supplier:"GPI", area:"Directs", category:"Printed Packaging", latest_signal:"No material updates", risk_type:null, impact:null, urgency:null, owner:"Owner TBD", next_step:"Monitor", link:null, rag:"Green", updated_utc:"2025-11-10T08:30:00Z"},
+      {supplier:"Stora", area:"Directs", category:"Printing Substrates", latest_signal:"EU energy cost relief discussed in trade press", risk_type:"Financial", impact:2, urgency:"M", owner:"Owner TBD", next_step:"Track energy clauses", link:"https://example.com/stora", rag:"Amber", updated_utc:"2025-11-10T08:30:00Z"},
+      {supplier:"IP Sun", area:"Directs", category:"Printing Substrates", latest_signal:"No material updates", risk_type:null, impact:null, urgency:null, owner:"Owner TBD", next_step:"Monitor", link:null, rag:"Green", updated_utc:"2025-11-10T08:30:00Z"},
+      {supplier:"Sappi", area:"Directs", category:"Printing Substrates", latest_signal:"Mill maintenance scheduled (72h)", risk_type:"Operational", impact:2, urgency:"M", owner:"Owner TBD", next_step:"Confirm inventory cover", link:"https://example.com/sappi", rag:"Amber", updated_utc:"2025-11-10T08:30:00Z"},
+      {supplier:"Daicel", area:"Directs", category:"Filter Materials", latest_signal:"No material updates", risk_type:null, impact:null, urgency:null, owner:"Owner TBD", next_step:"Monitor", link:null, rag:"Green", updated_utc:"2025-11-10T08:30:00Z"},
+      {supplier:"Eastman", area:"Directs", category:"Filter Materials", latest_signal:"Resin feedstock prices easing", risk_type:"Commercial", impact:1, urgency:"L", owner:"Owner TBD", next_step:"Review pricing index", link:"https://example.com/eastman", rag:"Green", updated_utc:"2025-11-10T08:30:00Z"},
+      {supplier:"Cerdia", area:"Directs", category:"Filter Materials", latest_signal:"No material updates", risk_type:null, impact:null, urgency:null, owner:"Owner TBD", next_step:"Monitor", link:null, rag:"Green", updated_utc:"2025-11-10T08:30:00Z"},
+      {supplier:"Tae Young Filters", area:"Directs", category:"Filter Materials", latest_signal:"No material updates", risk_type:null, impact:null, urgency:null, owner:"Owner TBD", next_step:"Monitor", link:null, rag:"Green", updated_utc:"2025-11-10T08:30:00Z"},
+      {supplier:"Fuji", area:"Directs", category:"Capsules", latest_signal:"No material updates", risk_type:null, impact:null, urgency:null, owner:"Owner TBD", next_step:"Monitor", link:null, rag:"Green", updated_utc:"2025-11-10T08:30:00Z"},
+      {supplier:"SWM", area:"Directs", category:"Fine Papers", latest_signal:"Stronger demand reported in EU niche grades", risk_type:"Commercial", impact:1, urgency:"L", owner:"Owner TBD", next_step:"Watch lead times", link:"https://example.com/swm", rag:"Green", updated_utc:"2025-11-10T08:30:00Z"},
+      {supplier:"Delfort", area:"Directs", category:"Fine Papers", latest_signal:"No material updates", risk_type:null, impact:null, urgency:null, owner:"Owner TBD", next_step:"Monitor", link:null, rag:"Green", updated_utc:"2025-11-10T08:30:00Z"},
+      {supplier:"CNT", area:"Directs", category:"Nicotine", latest_signal:"No material updates", risk_type:null, impact:null, urgency:null, owner:"Owner TBD", next_step:"Monitor", link:null, rag:"Green", updated_utc:"2025-11-10T08:30:00Z"},
+      {supplier:"ITC", area:"Directs", category:"Nicotine", latest_signal:"FX volatility (INR) watched", risk_type:"Financial", impact:2, urgency:"M", owner:"Owner TBD", next_step:"Hedge review", link:"https://example.com/itc", rag:"Amber", updated_utc:"2025-11-10T08:30:00Z"},
+      {supplier:"Porton", area:"Directs", category:"Nicotine", latest_signal:"No material updates", risk_type:null, impact:null, urgency:null, owner:"Owner TBD", next_step:"Monitor", link:null, rag:"Green", updated_utc:"2025-11-10T08:30:00Z"},
+      {supplier:"Tenowo", area:"Directs", category:"Modern/Trad. Oral Fleece", latest_signal:"No material updates", risk_type:null, impact:null, urgency:null, owner:"Owner TBD", next_step:"Monitor", link:null, rag:"Green", updated_utc:"2025-11-10T08:30:00Z"},
+      // NC (8)
+      {supplier:"Huizhou BYD Electronic Co., Ltd. (EMS)", area:"NC", category:"EMS", latest_signal:"Holiday season load high; slots tight", risk_type:"Operational", impact:3, urgency:"H", owner:"Owner TBD", next_step:"Lock PO windows", link:"https://example.com/byd", rag:"Amber", updated_utc:"2025-11-10T08:30:00Z"},
+      {supplier:"Smoore", area:"NC", category:"EMS", latest_signal:"No material updates", risk_type:null, impact:null, urgency:null, owner:"Owner TBD", next_step:"Monitor", link:null, rag:"Green", updated_utc:"2025-11-10T08:30:00Z"},
+      {supplier:"EVE", area:"NC", category:"Batteries", latest_signal:"21700 export slots limited", risk_type:"Commercial", impact:3, urgency:"M", owner:"Owner TBD", next_step:"Confirm allocation", link:"https://example.com/eve", rag:"Amber", updated_utc:"2025-11-10T08:30:00Z"},
+      {supplier:"Texas Instruments", area:"NC", category:"EE Component", latest_signal:"Lead-time guide unchanged", risk_type:"Operational", impact:1, urgency:"L", owner:"Owner TBD", next_step:"Monitor", link:"https://example.com/ti", rag:"Green", updated_utc:"2025-11-10T08:30:00Z"},
+      {supplier:"Infineon", area:"NC", category:"EE Component", latest_signal:"Auto demand steady", risk_type:"Commercial", impact:1, urgency:"L", owner:"Owner TBD", next_step:"Monitor", link:"https://example.com/infineon", rag:"Green", updated_utc:"2025-11-10T08:30:00Z"},
+      {supplier:"Weener (MO)", area:"NC", category:"Mechanical", latest_signal:"No material updates", risk_type:null, impact:null, urgency:null, owner:"Owner TBD", next_step:"Monitor", link:null, rag:"Green", updated_utc:"2025-11-10T08:30:00Z"},
+      {supplier:"Rosti (MO)", area:"NC", category:"Mechanical", latest_signal:"No material updates", risk_type:null, impact:null, urgency:null, owner:"Owner TBD", next_step:"Monitor", link:null, rag:"Green", updated_utc:"2025-11-10T08:30:00Z"},
+      {supplier:"Jabil (MO)", area:"NC", category:"Mechanical", latest_signal:"EMS capacity resilient", risk_type:"Operational", impact:1, urgency:"L", owner:"Owner TBD", next_step:"Monitor", link:"https://example.com/jabil", rag:"Green", updated_utc:"2025-11-10T08:30:00Z"}
+    ];
+
+    // ---- Renderers ----
+    const el = s => document.querySelector(s);
+    const today = new Date();
+    el('#today').textContent = today.toLocaleString(undefined, { weekday: 'short', day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+
+    // Top Signals
+    function renderSignals(){
+      const tb = el('#signalsTable tbody');
+      tb.innerHTML = '';
+      for(const r of topSignals){
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${r.entity}</td>
+          <td>${r.event}</td>
+          <td>${r.impact}</td>
+          <td>${r.urgency}</td>
+          <td>${r.confidence}%</td>
+          <td><span class="pill ${pillClass(r.risk_type)}">${r.risk_type}</span></td>
+          <td>${r.link? `<a href="${r.link}" target="_blank">Open</a>`:''}</td>`;
+        tb.appendChild(tr);
+      }
+      el('#kpiSignals').textContent = topSignals.length;
+    }
+
+    function pillClass(rt){
+      if(!rt) return '';
+      rt = rt.toLowerCase();
+      if(rt.includes('oper')) return 'op';
+      if(rt.includes('fin')) return 'fin';
+      if(rt.includes('leg')) return 'leg';
+      if(rt.includes('geo')) return 'geo';
+      if(rt.includes('esg')) return 'esg';
+      if(rt.includes('cyb')) return 'cyb';
+      return '';
+    }
+
+    // Macro
+    function renderMacro(){
+      const grid = el('#macroGrid');
+      grid.innerHTML = '';
+      for(const m of macro){
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `<div class="body">
+          <h3>${m.region}</h3>
+          <ul class="bullets">${m.bullets.map(b=>`<li>${b}</li>`).join('')}</ul>
+          <div style="margin-top:10px"><a href="${m.link}" target="_blank">Primary source</a></div>
+        </div>`;
+        grid.appendChild(card);
+      }
+    }
+
+    // Peers
+    function renderPeers(){
+      const grid = el('#peersGrid');
+      grid.innerHTML = '';
+      for(const p of peers){
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `<div class="body">
+          <h3>${p.company}</h3>
+          <ul class="bullets">${p.bullets.map(b=>`<li>${b}</li>`).join('')}</ul>
+          <div style="margin-top:10px"><a href="${p.link}" target="_blank">Company site</a></div>
+        </div>`;
+        grid.appendChild(card);
+      }
+    }
+
+    // Watchlist table with search & filters
+    let sortKey = 'supplier';
+    let sortAsc = true;
+
+    function renderWatchlist(){
+      const q = el('#search').value.toLowerCase();
+      const rag = el('#ragFilter').value;
+      const area = el('#areaFilter').value;
+      const tb = el('#watchTable tbody');
+      tb.innerHTML = '';
+      let rows = watchlist.filter(r => {
+        const hit = `${r.supplier} ${r.category} ${r.latest_signal} ${r.risk_type||''}`.toLowerCase().includes(q);
+        const ragOk = !rag || r.rag === rag;
+        const areaOk = !area || r.area === area;
+        return hit && ragOk && areaOk;
+      });
+      rows.sort((a,b)=>{
+        const va = (a[sortKey]||'').toString().toLowerCase();
+        const vb = (b[sortKey]||'').toString().toLowerCase();
+        if(va<vb) return sortAsc? -1: 1;
+        if(va>vb) return sortAsc? 1: -1;
+        return 0;
+      })
+      for(const r of rows){
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${r.supplier}</td>
+          <td>${r.area}</td>
+          <td>${r.category}</td>
+          <td>${r.latest_signal}</td>
+          <td>${r.risk_type? `<span class="pill ${pillClass(r.risk_type)}">${r.risk_type}</span>`:''}</td>
+          <td>${r.impact??''}</td>
+          <td>${r.urgency??''}</td>
+          <td>${r.owner??''}</td>
+          <td>${r.next_step??''}</td>
+          <td>${r.link? `<a href="${r.link}" target="_blank">Open</a>`:''}</td>
+          <td><span class="rag ${ragShort(r.rag)}"><span class="dot"></span> ${r.rag}</span></td>
+          <td>${r.updated_utc}</td>`;
+        tb.appendChild(tr);
+      }
+      el('#kpiSuppliers').textContent = watchlist.length;
+    }
+
+    function ragShort(s){ return s==="Green"? 'G': s==="Amber"? 'A':'R'; }
+
+    // Sorting
+    document.querySelectorAll('#watchTable thead th[data-sort]').forEach(th=>{
+      th.addEventListener('click', ()=>{
+        const key = th.getAttribute('data-sort');
+        if(sortKey===key) sortAsc = !sortAsc; else { sortKey = key; sortAsc = true; }
+        renderWatchlist();
+      })
+    });
+
+    // Search & filters
+    ['search','ragFilter','areaFilter'].forEach(id=> el('#'+id).addEventListener('input', renderWatchlist));
+
+    // Export CSV
+    function toCsv(arr){
+      const cols = ["supplier","area","category","latest_signal","risk_type","impact","urgency","owner","next_step","link","rag","updated_utc"];
+      const header = cols.join(',');
+      const lines = arr.map(r=> cols.map(k=>{
+        const v = r[k]===null||r[k]===undefined? '' : String(r[k]).replaceAll('"','""');
+        return '"'+v+'"';
+      }).join(','));
+      return [header, ...lines].join('\n');
+    }
+    el('#exportCsv').addEventListener('click', ()=>{
+      const blob = new Blob([toCsv(watchlist)], {type:'text/csv'});
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'watchlist.csv';
+      a.click();
+    });
+
+    // Theme toggle
+    el('#toggleTheme').addEventListener('click', ()=>{
+      document.body.classList.toggle('light');
+      localStorage.setItem('theme', document.body.classList.contains('light')? 'light':'dark');
+    });
+    (function(){ const t = localStorage.getItem('theme'); if(t==='dark') document.body.classList.remove('light'); })();
+
+    // Copy one-liner
+    el('#copyOne').addEventListener('click', ()=>{
+      const txt = el('#oneLiner').textContent.trim();
+      navigator.clipboard.writeText(txt).then(()=>{
+        const old = el('#copyOne').textContent; el('#copyOne').textContent = 'Copied'; setTimeout(()=>el('#copyOne').textContent=old, 1200);
+      });
+    });
+
+    // Render all
+    renderSignals();
+    renderMacro();
+    renderPeers();
+    renderWatchlist();
+  </script>
+</body>
+</html>
